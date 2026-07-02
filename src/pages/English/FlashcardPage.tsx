@@ -12,12 +12,13 @@ import {
   ActionIcon,
 } from '@mantine/core'
 import { useEnglishAudio } from '../../hooks/useEnglishAudio'
-import { 
-  englishWords, 
-  getWordsByCategory, 
-  categoryLabels, 
+import {
+  englishWords,
+  getWordsByCategory,
+  categoryLabels,
+  getWordImageUrl,
   WordCategory,
-  EnglishWord 
+  EnglishWord
 } from '../../data/english'
 import { IconRefresh, IconArrowRight, IconPlay } from '../../components/Icons'
 
@@ -157,9 +158,18 @@ export default function FlashcardPage() {
       >
         <Stack align="center" justify="center" className="min-h-[200px]">
           {!isFlipped ? (
-            // 正面：英文单词
+            // 正面：英文单词 + 配图
             <>
-              <Text 
+              <Box
+                className="w-40 h-40 rounded-2xl overflow-hidden shadow-sm mb-4"
+              >
+                <img
+                  src={getWordImageUrl(currentWord)}
+                  alt={currentWord.word}
+                  className="w-full h-full object-cover"
+                />
+              </Box>
+              <Text
                 className="text-5xl sm:text-6xl font-bold text-cyan-600 animate-bounce-in"
                 style={{ fontFamily: "'Comic Sans MS', cursive" }}
               >
@@ -169,18 +179,18 @@ export default function FlashcardPage() {
                 {currentWord.phonetic}
               </Text>
               <Group gap="sm" mt="md">
-                <ActionIcon 
-                  variant="light" 
-                  color="cyan" 
+                <ActionIcon
+                  variant="light"
+                  color="cyan"
                   size="lg"
                   radius="xl"
                   onClick={(e) => { e.stopPropagation(); handleSpeak(); }}
                 >
                   <IconPlay size={18} />
                 </ActionIcon>
-                <ActionIcon 
-                  variant="light" 
-                  color="blue" 
+                <ActionIcon
+                  variant="light"
+                  color="blue"
                   size="lg"
                   radius="xl"
                   onClick={(e) => { e.stopPropagation(); handleSpeakSlow(); }}

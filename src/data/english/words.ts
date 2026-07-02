@@ -4,6 +4,8 @@ export interface EnglishWord {
   meaning: string
   category: WordCategory
   sentences: string[]
+  /** 可选：自定义图片 URL。不填则自动生成分类配色的 SVG 占位图 */
+  image?: string
 }
 
 export type WordCategory = 
@@ -45,6 +47,130 @@ export const categoryLabels: Record<WordCategory, { label: string; emoji: string
   time: { label: '时间', emoji: '⏰', color: 'gray' },
   weather: { label: '天气', emoji: '☀️', color: 'sky' },
   places: { label: '地点', emoji: '🏠', color: 'lime' },
+}
+
+/** 分类 → 配色（hex），用于生成占位图。值取自 Tailwind 500 色板 */
+const categoryColorHex: Record<WordCategory, { bg: string; text: string }> = {
+  animals:    { bg: '#fef3c7', text: '#f59e0b' },  // amber
+  colors:     { bg: '#fce7f3', text: '#ec4899' },  // pink
+  numbers:    { bg: '#dbeafe', text: '#3b82f6' },  // blue
+  family:     { bg: '#ffe4e6', text: '#f43f5e' },  // rose
+  body:       { bg: '#cffafe', text: '#06b6d4' },  // cyan
+  food:       { bg: '#ffedd5', text: '#f97316' },  // orange
+  fruits:     { bg: '#fee2e2', text: '#ef4444' },  // red
+  vegetables: { bg: '#dcfce7', text: '#22c55e' },  // green
+  school:     { bg: '#e0e7ff', text: '#6366f1' },  // indigo
+  actions:    { bg: '#d1fae5', text: '#10b981' },  // emerald
+  greetings:  { bg: '#ede9fe', text: '#8b5cf6' },  // violet
+  nature:     { bg: '#ccfbf1', text: '#14b8a6' },  // teal
+  clothes:    { bg: '#f3e8ff', text: '#a855f7' },  // purple
+  toys:       { bg: '#fef9c3', text: '#eab308' },  // yellow
+  transport:  { bg: '#f1f5f9', text: '#64748b' },  // slate
+  time:       { bg: '#f3f4f6', text: '#6b7280' },  // gray
+  weather:    { bg: '#e0f2fe', text: '#0ea5e9' },  // sky
+  places:     { bg: '#ecfccb', text: '#84cc16' },  // lime
+}
+
+/** 每个单词 → 专属 emoji，语义精确对应 */
+const wordEmoji: Record<string, string> = {
+  // ===== 动物 =====
+  cat: '🐱', dog: '🐶', bird: '🐦', fish: '🐟', pig: '🐷',
+  duck: '🦆', rabbit: '🐰', tiger: '🐯', lion: '🦁', elephant: '🐘',
+  monkey: '🐵', bear: '🐻', panda: '🐼', cow: '🐮', sheep: '🐑',
+  horse: '🐴', chicken: '🐔', frog: '🐸', snake: '🐍', bee: '🐝',
+  butterfly: '🦋',
+  // ===== 颜色 =====
+  red: '🔴', blue: '🔵', green: '🟢', yellow: '🟡', pink: '🩷',
+  orange: '🍊', black: '⚫', white: '⚪', brown: '🟤', purple: '🟣',
+  gray: '🩶',
+  // ===== 数字 =====
+  one: '1️⃣', two: '2️⃣', three: '3️⃣', four: '4️⃣', five: '5️⃣',
+  six: '6️⃣', seven: '7️⃣', eight: '8️⃣', nine: '9️⃣', ten: '🔟',
+  zero: '0️⃣',
+  // ===== 家人 =====
+  mom: '👩', dad: '👨', brother: '👦', sister: '👧',
+  grandma: '👵', grandpa: '👴', baby: '👶', uncle: '🧔', aunt: '👩‍🦱',
+  // ===== 身体 =====
+  head: '😀', eye: '👁️', ear: '👂', nose: '👃', mouth: '👄',
+  hand: '✋', foot: '🦶', arm: '💪', leg: '🦵', finger: '👆',
+  hair: '💇', face: '😊',
+  // ===== 食物 =====
+  rice: '🍚', bread: '🍞', egg: '🥚', milk: '🥛', water: '💧',
+  cake: '🎂', 'ice cream': '🍦', noodles: '🍜', soup: '🍲',
+  pizza: '🍕', hamburger: '🍔',
+  // ===== 水果 =====
+  apple: '🍎', banana: '🍌', grape: '🍇', pear: '🍐',
+  watermelon: '🍉', strawberry: '🍓', mango: '🥭', peach: '🍑',
+  cherry: '🍒',
+  // ===== 蔬菜 =====
+  carrot: '🥕', tomato: '🍅', potato: '🥔', cucumber: '🥒', corn: '🌽',
+  // ===== 学校 =====
+  book: '📖', pen: '🖊️', pencil: '✏️', ruler: '📏', bag: '🎒',
+  desk: '🪑', teacher: '👩‍🏫', student: '🧑‍🎓', classroom: '🏫',
+  eraser: '🫧', paper: '📄', crayon: '🖍️',
+  // ===== 动作 =====
+  run: '🏃', jump: '🦘', walk: '🚶', sit: '🪑', stand: '🧍',
+  eat: '🍽️', drink: '🥤', sleep: '😴', read: '📚', write: '✍️',
+  draw: '🎨', sing: '🎤', dance: '💃', play: '⚽', swim: '🏊',
+  fly: '🕊️', climb: '🧗', open: '📂', close: '📁',
+  // ===== 问候 =====
+  hello: '🙋', goodbye: '👋', thanks: '🙏', sorry: '😔', please: '🥺',
+  yes: '✅', no: '❌', welcome: '🤗',
+  // ===== 自然 =====
+  sun: '☀️', moon: '🌙', star: '⭐', tree: '🌳', flower: '🌸',
+  grass: '🌿', rain: '🌧️', cloud: '☁️', wind: '💨', snow: '❄️',
+  river: '🌊', mountain: '⛰️', sea: '🏝️',
+  // ===== 衣物 =====
+  shirt: '👕', pants: '👖', dress: '👗', shoes: '👟', hat: '🧢',
+  coat: '🧥', socks: '🧦', jacket: '🦺', sweater: '🧶', skirt: '👗',
+  // ===== 玩具 =====
+  ball: '⚽', doll: '🪆', toy: '🧸', car: '🚗', kite: '🪁',
+  robot: '🤖', puzzle: '🧩',
+  // ===== 交通 =====
+  bus: '🚌', train: '🚂', plane: '✈️', bike: '🚲', boat: '⛵',
+  ship: '🚢',
+  // ===== 时间 =====
+  morning: '🌅', afternoon: '☀️', evening: '🌆', night: '🌃',
+  today: '📅', tomorrow: '🔜', yesterday: '🔙',
+  // ===== 天气 =====
+  sunny: '☀️', cloudy: '☁️', rainy: '🌧️', windy: '💨', snowy: '❄️',
+  hot: '🥵', cold: '🥶', warm: '🔥', cool: '🧊',
+  // ===== 地点 =====
+  home: '🏠', school: '🏫', park: '🌳', zoo: '🦒',
+  hospital: '🏥', library: '📚', supermarket: '🏪', restaurant: '🍴',
+}
+
+/**
+ * 获取单词配图 URL。
+ * - 若单词有自定义 `image` 字段，直接返回；
+ * - 否则返回内嵌 SVG data URI（分类配色 + 专属 emoji + 单词文字），零网络请求、瞬间渲染。
+ */
+export function getWordImageUrl(word: EnglishWord): string {
+  if (word.image) return word.image
+
+  const info = categoryLabels[word.category]
+  const colors = categoryColorHex[word.category]
+  const emoji = wordEmoji[word.word] || info.emoji
+  const label = info.label
+  const encodedWord = encodeURIComponent(word.word)
+
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" viewBox="0 0 300 300">
+  <defs>
+    <radialGradient id="g" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="white" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="${colors.bg}"/>
+    </radialGradient>
+  </defs>
+  <rect width="300" height="300" rx="24" fill="${colors.bg}"/>
+  <rect width="300" height="300" rx="24" fill="url(#g)"/>
+  <text x="150" y="130" text-anchor="middle" font-size="72">${emoji}</text>
+  <text x="150" y="200" text-anchor="middle" font-family="Comic Sans MS, cursive, sans-serif" font-size="36" font-weight="bold" fill="${colors.text}">${encodedWord}</text>
+  <text x="150" y="235" text-anchor="middle" font-family="sans-serif" font-size="16" fill="${colors.text}" opacity="0.6">${label}</text>
+  <circle cx="260" cy="260" r="100" fill="white" opacity="0.15"/>
+  <circle cx="40" cy="40" r="40" fill="white" opacity="0.2"/>
+</svg>`
+
+  return `data:image/svg+xml,${encodeURIComponent(svg)}`
 }
 
 export const englishWords: EnglishWord[] = [
