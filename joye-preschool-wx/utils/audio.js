@@ -5,6 +5,7 @@ const { pinyinCharPairs } = require('../data/pinyin')
 let innerAudioContext = null
 let isPlaying = false
 let currentAudioText = ''
+let playbackGeneration = 0
 let currentPlayback = {
   fallbackUrls: [],
   fallbackIndex: 0,
@@ -12,6 +13,7 @@ let currentPlayback = {
 }
 
 function resetPlaybackState() {
+  playbackGeneration += 1
   currentPlayback = {
     fallbackUrls: [],
     fallbackIndex: 0,
@@ -47,6 +49,7 @@ function getAudioContext() {
 }
 
 function tryPlayYoudaoFallback() {
+  const gen = playbackGeneration
   const { fallbackUrls, fallbackIndex } = currentPlayback
   if (!fallbackUrls.length || fallbackIndex >= fallbackUrls.length) {
     isPlaying = false
@@ -62,11 +65,14 @@ function tryPlayYoudaoFallback() {
   wx.downloadFile({
     url: targetUrl,
     success: (res) => {
+      // 下载期间用户触发了新的播放请求，废弃此次回调
+      if (gen !== playbackGeneration) return
       if (res.statusCode !== 200 || !res.tempFilePath) {
         tryPlayYoudaoFallback()
         return
       }
       try {
+        innerAudioContext.stop()
         innerAudioContext.src = res.tempFilePath
         innerAudioContext.play()
       } catch (e) {
@@ -74,6 +80,7 @@ function tryPlayYoudaoFallback() {
       }
     },
     fail: () => {
+      if (gen !== playbackGeneration) return
       tryPlayYoudaoFallback()
     }
   })
@@ -94,13 +101,18 @@ function getYoudaoUrls(text, lang = 'zh') {
 }
 
 function playLocalAudio(type, text, fallbackLang = 'zh', allowFallbackOverride = null) {
-  if (!text || isPlaying) return
+  if (!text) return
 
   const app = getApp()
   if (!app.globalData.settings.soundEnabled) return
 
+  // 中断正在播放的旧音频，保证新请求不被静默丢弃
+  stopAudio()
+
   isPlaying = true
   currentAudioText = text
+  playbackGeneration += 1
+  const generation = playbackGeneration
   const allowFallback = allowFallbackOverride === null
     ? (fallbackLang === 'en' || isSuitableForYoudao(String(text)))
     : allowFallbackOverride
@@ -110,6 +122,8 @@ function playLocalAudio(type, text, fallbackLang = 'zh', allowFallbackOverride =
     fallbackTried: false
   }
   const audio = getAudioContext()
+  // 必须先 stop 再设 src，否则真机上 innerAudioContext 可能复用旧缓冲
+  audio.stop()
   audio.src = getLocalAudioPath(type, text)
   audio.play()
 }

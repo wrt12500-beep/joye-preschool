@@ -1,6 +1,6 @@
 // 单词闪卡页面
 const { categories, words } = require('../../../data/english')
-const { speakEnglish } = require('../../../utils/audio')
+const { speakEnglish, stopAudio } = require('../../../utils/audio')
 
 Page({
   data: {
@@ -27,6 +27,7 @@ Page({
     this.autoPlaySessionId += 1
     this.autoPlayTimers.forEach(timer => clearTimeout(timer))
     this.autoPlayTimers = []
+    stopAudio()
   },
 
   getSpeechDelay(text) {
