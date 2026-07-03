@@ -1,6 +1,8 @@
-# 佳宜幼小衔接 - 综合启蒙学习应用
+# 菲菲的学习乐园
 
-一款专为6岁幼小衔接儿童设计的综合启蒙Web应用，整合**数学启蒙**、**拼音学习**和**英语启蒙**三大核心模块，界面童趣简洁、操作极简，支持全端适配（手机/平板/电脑），可打包为桌面应用。
+一款专为学龄前及幼小衔接儿童设计的综合启蒙学习 Web 应用，整合**数学启蒙**、**拼音学习**和**英语启蒙**三大核心模块，界面童趣简洁、操作极简，支持全端适配（手机/平板/电脑），可打包为桌面应用。
+
+> 本项目持续迭代中，功能和内容会根据实际使用情况不断调整更新。
 
 ## 功能特色
 
@@ -44,13 +46,13 @@
 ### 🔤 英语启蒙
 
 #### 单词学习
-- **单词闪卡**：200+常用英语单词，18个主题分类
+- **单词闪卡**：150+常用英语单词，多主题分类，配有专属图标便于记忆
 - **单词发音**：标准美式发音（有道词典TTS）
 - **音标展示**：每个单词配有国际音标
 - **中文释义**：简单易懂的中文解释
 
 #### 常用句型
-- **10大场景**：问候、介绍、请求、喜好、天气等
+- **多场景覆盖**：问候、介绍、请求、喜好、天气等
 - **例句学习**：每个句型配有多个实用例句
 - **句子发音**：完整句子朗读
 
@@ -90,6 +92,7 @@
 - 支持微信内置浏览器
 - 支持移动端触摸操作
 - 可打包为桌面应用（Tauri）
+- 提供微信小程序版本（离线语音）
 
 ## 技术栈
 
@@ -107,14 +110,7 @@
 ### 安装依赖
 
 ```bash
-# 使用 npm
 npm install
-
-# 使用 yarn
-yarn install
-
-# 使用 pnpm
-pnpm install
 ```
 
 ### 启动开发服务器
@@ -142,20 +138,10 @@ npm run preview
 ## 项目结构
 
 ```
-joye_math/
+菲菲的学习乐园/
 ├── public/                      # 静态资源
-│   └── favicon.svg             # 应用图标
 ├── src/
 │   ├── components/             # 通用UI组件
-│   │   ├── Layout/            # 布局组件（Header + Navigation）
-│   │   ├── Icons/             # SVG图标组件
-│   │   ├── Pinyin/            # 拼音专用组件
-│   │   ├── NumberPad/         # 数字键盘
-│   │   ├── ProgressBar/       # 进度条
-│   │   ├── StarRating/        # 星星评分
-│   │   ├── VisualAid/         # 可视化辅助
-│   │   ├── OptionButton/      # 选项按钮
-│   │   └── QuestionCard/      # 题目卡片
 │   ├── pages/                  # 页面组件
 │   │   ├── Home/              # 首页
 │   │   ├── Practice/          # 数学练习
@@ -165,25 +151,14 @@ joye_math/
 │   │   ├── WrongBook/         # 错题本
 │   │   └── Settings/          # 设置页面
 │   ├── hooks/                  # 自定义 Hooks
-│   │   ├── useAudio.ts        # 数学音频
-│   │   ├── usePinyinAudio.ts  # 拼音音频
-│   │   └── useEnglishAudio.ts # 英语音频
 │   ├── stores/                 # 状态管理
-│   │   └── AppContext.tsx     # 全局状态
 │   ├── utils/                  # 工具函数
-│   │   ├── audioPlayer.ts     # 统一音频播放器
-│   │   ├── questionGenerator.ts  # 题目生成
-│   │   └── storage.ts         # 本地存储
 │   ├── data/                   # 静态配置
-│   │   ├── pinyin/            # 拼音数据
-│   │   ├── english/           # 英语数据
-│   │   ├── levels.ts          # 关卡配置
-│   │   └── encouragements.ts  # 鼓励语配置
 │   ├── types/                  # TypeScript类型
-│   ├── App.tsx                # 应用入口
-│   ├── main.tsx               # 渲染入口
-│   ├── theme.ts               # Mantine主题
-│   └── index.css              # 全局样式
+│   ├── App.tsx
+│   ├── main.tsx
+│   ├── theme.ts
+│   └── index.css
 ├── index.html
 ├── vite.config.ts
 ├── tailwind.config.js
@@ -199,21 +174,18 @@ joye_math/
 - 点击"数学乐园"进入数学模块
 - 点击"拼音天地"进入拼音模块
 - 点击"英语启蒙"进入英语模块
-- 快捷入口直达各个功能
 
 ### 数学练习
 1. 选择想练习的题型（加法、减法、应用题等）
 2. 设置题目数量（5-20题）
-3. 点击"开始练习"
-4. 点击正确答案或输入数字答题
-5. 完成后查看得星情况
+3. 点击"开始练习"作答
+4. 完成后查看得星情况
 
 ### 拼音学习
 1. 选择学习内容（韵母、声母、整体认读）
 2. 点击任意拼音卡片听发音
 3. 进入拼读训练学习两拼法、三拼法
 4. 使用拼音表查看完整字母表
-5. 进入拼音练习检验学习效果
 
 ### 英语学习
 1. 进入单词闪卡浏览单词
@@ -233,7 +205,6 @@ joye_math/
 ### 环境准备
 
 1. 安装 Rust: https://www.rust-lang.org/tools/install
-
 2. 安装 Tauri CLI:
 ```bash
 npm install -g @tauri-apps/cli
@@ -257,18 +228,18 @@ npx tauri init
     "beforeDevCommand": "npm run dev"
   },
   "package": {
-    "productName": "佳宜幼小衔接",
-    "version": "3.0.0"
+    "productName": "菲菲的学习乐园",
+    "version": "1.0.0"
   },
   "tauri": {
     "bundle": {
       "active": true,
-      "identifier": "com.joye.preschool",
+      "identifier": "com.feifei.study",
       "icon": ["icons/icon.png"]
     },
     "windows": [
       {
-        "title": "佳宜幼小衔接",
+        "title": "菲菲的学习乐园",
         "width": 1024,
         "height": 768,
         "resizable": true,
@@ -299,27 +270,11 @@ npx tauri build
 
 ## 更新日志
 
-### v3.0.0
-- 新增英语启蒙模块（单词闪卡、常用句型、单词练习）
-- 新增200+英语单词，18个主题分类
-- 优化语音系统，使用有道词典TTS + Web Speech API混合方案
-- 统一马卡龙配色方案
-- 扁平化SVG图标设计
-- 固定顶部导航栏
-- 优化移动端和微信浏览器兼容性
-- 添加音频缓存和限流保护
+维护中，每次改动会陆续记录在这里。
 
-### v2.0.0
-- 新增拼音天地模块
-- 拼读训练（两拼法、三拼法）
-- 拼音字母表和收藏夹
+## 许可证与致谢
 
-### v1.0.0
-- 数学乐园基础功能
-- 10/20以内加减法
-- 闯关模式和错题本
-
-## 许可证
+本项目基于开源项目 [joye-preschool](https://github.com/yuxink/joye-preschool)（MIT License）二次开发，在此基础上持续修改和扩展功能。
 
 MIT License
 
