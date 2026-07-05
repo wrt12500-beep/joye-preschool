@@ -59,7 +59,7 @@ interface PageInfo {
 }
 
 const pageTitles: Record<string, PageInfo> = {
-  '/': { title: '佳宜幼小衔接', icon: <IconHome size={16} />, iconBg: 'bg-indigo-500' },
+  '/': { title: '菲菲的学习乐园', icon: <IconHome size={16} />, iconBg: 'bg-indigo-500' },
   '/practice': { title: '数学练习', icon: <IconMath size={16} />, iconBg: 'bg-orange-500' },
   '/challenge': { title: '闯关模式', icon: <IconChallenge size={16} />, iconBg: 'bg-amber-500' },
   '/wrongbook': { title: '错题本', icon: <IconWrongBook size={16} />, iconBg: 'bg-rose-500' },
@@ -85,7 +85,7 @@ export default function Header() {
   const { progress } = useApp()
 
   const isHome = location.pathname === '/'
-  const pageInfo = pageTitles[location.pathname] || { title: '佳宜幼小衔接', icon: <IconHome size={16} />, iconBg: 'bg-indigo-500' }
+  const pageInfo = pageTitles[location.pathname] || { title: '菲菲的学习乐园', icon: <IconHome size={16} />, iconBg: 'bg-indigo-500' }
 
   const handleBack = () => {
     if (location.pathname.startsWith('/pinyin/') && location.pathname !== '/pinyin') {

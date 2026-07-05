@@ -3,7 +3,7 @@
   <!-- 欢迎卡片 -->
   <view class="welcome-card">
     <view class="welcome-text">
-      <view class="welcome-title">欢迎来到佳宜幼小衔接</view>
+      <view class="welcome-title">欢迎来到菲菲的学习乐园</view>
       <view class="welcome-subtitle">每天进步一点点，学习更轻松</view>
     </view>
   </view>

@@ -3,7 +3,7 @@
   "private": true,
   "version": "2.0.0",
   "type": "module",
-  "description": "佳宜幼小衔接 - 面向6岁儿童的数学启蒙与拼音学习综合Web应用",
+  "description": "菲菲的学习乐园 - 学龄前及幼小衔接儿童的综合启蒙学习应用",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",

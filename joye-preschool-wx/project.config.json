@@ -1,8 +1,8 @@
 {
   "miniprogramRoot": "./",
   "projectname": "joye-preschool",
-  "description": "佳宜幼小衔接 - 综合启蒙学习小程序",
-  "appid": "appid",
+  "description": "菲菲的学习乐园 - 综合启蒙学习小程序",
+  "appid": "wxd097a2ba25a7aeec",
   "setting": {
     "urlCheck": true,
     "es6": true,
@@ -46,25 +46,25 @@
     "disableSWC": true
   },
   "compileType": "miniprogram",
-  "libVersion": "3.3.4",
+  "libVersion": "3.15.0",
   "srcMiniprogramRoot": "./",
   "packOptions": {
     "ignore": [
       {
-        "type": "folder",
-        "value": "audio"
+        "value": "audio",
+        "type": "folder"
       },
       {
-        "type": "folder",
-        "value": "scripts"
+        "value": "scripts",
+        "type": "folder"
       },
       {
-        "type": "folder",
-        "value": ".idea"
+        "value": ".idea",
+        "type": "folder"
       },
       {
-        "type": "file",
-        "value": "README.md"
+        "value": "README.md",
+        "type": "file"
       }
     ],
     "include": []

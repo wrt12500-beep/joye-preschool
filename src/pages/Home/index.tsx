@@ -164,7 +164,7 @@ export default function Home() {
           <Text size="lg" className="text-gray-600">{greeting.text}</Text>
         </Group>
         <Title order={1} className="text-2xl sm:text-3xl font-bold text-gray-800">
-          佳宜幼小衔接
+          菲菲的学习乐园
         </Title>
         <Text className="text-gray-500" size="sm" mt={4}>
           数学 · 拼音 · 英语

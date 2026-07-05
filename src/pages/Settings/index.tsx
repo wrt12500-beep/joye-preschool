@@ -276,7 +276,7 @@ export default function Settings() {
             onClick={() => setShowAbout(true)}
             className="hover:scale-[1.01] active:scale-[0.99] transition-transform"
           >
-            关于佳宜幼小衔接
+            关于菲菲的学习乐园
           </Button>
 
           <Button
@@ -317,21 +317,21 @@ export default function Settings() {
       <Modal
         opened={showAbout}
         onClose={() => setShowAbout(false)}
-        title="关于佳宜幼小衔接"
+        title="关于菲菲的学习乐园"
         centered
         radius="lg"
         size="md"
       >
         <Stack gap="md">
           <Text fw={700} size="xl" className="text-center text-indigo-600">
-            佳宜幼小衔接
+            菲菲的学习乐园
           </Text>
           <Text ta="center" c="dimmed">版本 3.0.0</Text>
-          
+
           <Divider />
-          
+
           <Text size="sm">
-            佳宜幼小衔接是一款专为6岁准小学生设计的综合启蒙学习应用，
+            菲菲的学习乐园是一款专为学龄前及幼小衔接儿童设计的综合启蒙学习应用，
             涵盖数学、拼音、英语三大学科，帮助孩子轻松完成幼小衔接，
             为小学学习打下坚实基础。
           </Text>
